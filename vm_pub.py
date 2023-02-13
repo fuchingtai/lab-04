@@ -14,8 +14,8 @@ def on_connect(client, userdata, flags, rc):
 
 if __name__ == '__main__':
     #get IP address
-    ip_address=0 
-    """your code here"""
+    ip_address = "192.168.64.1" #Computer Terminal
+    #ip_address = "192.168.1.26" #RPI
     #create a client object
     client = mqtt.Client()
     
@@ -41,11 +41,23 @@ if __name__ == '__main__':
 
     while True:
         #replace user with your USC username in all subscriptions
-        client.publish("user/ipinfo", f"{ip_address}")
+        client.publish("fuv/ipinfo", f"{ip_address}")
         print("Publishing ip address")
-        time.sleep(4)
+        
 
         #get date and time 
-        """your code here"""
-        #publish date and time in their own topics
-        """your code here"""
+        now = datetime.now()
+        #mm/dd/YY format
+        current_date = now.strftime("%m/%d/%Y")
+        #H/M/S format
+        current_time = now.strftime("%H:%M:%S")
+        
+
+        #publish date in their own topics
+        client.publish("fuv/date", f"{current_date}")
+        print("Publishing date")
+        #publish date in their own topics
+        client.publish("fuv/time", f"{current_time}")
+        print("Publishing time")
+
+        time.sleep(4)
